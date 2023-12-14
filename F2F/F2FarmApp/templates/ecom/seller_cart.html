@@ -1,0 +1,153 @@
+{% extends 'ecom/seller_base.html' %}
+{% load static %}
+{% block content %}
+<head>
+  <!-- Include Bootstrap CSS and JS -->
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <style media="screen">
+    .button {
+      display: inline-block;
+      border-radius: 4px;
+      background-color: #F4511E;
+      border: none;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 28px;
+      padding: 20px;
+      width: 200px;
+      transition: all 0.5s;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .button span {
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      transition: 0.5s;
+    }
+    .button span:after {
+      content: '\00bb';
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      right: -20px;
+      transition: 0.5s;
+    }
+    .button:hover span {
+      padding-right: 25px;
+    }
+    .button:hover span:after {
+      opacity: 1;
+      right: 0;
+    }
+    .button2 {
+      background-color: white;
+      color: black;
+      border: 2px solid #008CBA;
+    }
+    .button2:hover {
+      background-color: #008CBA;
+      color: white;
+    }
+    .quantity-btn {
+      font-size: 18px;
+    }
+    
+  </style>
+</head>
+<br><br><br><br>
+<div class="container">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h6 style="text-align:center;" class="panel-title">My Cart</h6>
+    </div>
+    <table class="table table-hover table-bordered" id="dev-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Image</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in cart.sellercartproduct_set.all %}
+          {% if p %}
+            <tr>
+              <td>{{ p.product.name }}</td>
+              <td><img src="{% static p.product_image.url %}" alt="Product Pic" height="50px" width="50px" /></td>
+              <td>{{ p.product.price }}</td>
+              <td>
+                <input type="number" class="form quantity-input" value="{{ p.quantity }}"
+                    data-price-per-kg="{{ p.product.price }}" data-max-quantity="100" readonly>
+                <a href="sellermanagecart/{{p.id}}?action=inc" class="btn btn-primary quantity-btn quantity-increase"> + </a>
+                <a href="sellermanagecart/{{p.id}}?action=dcr" class="btn btn-primary quantity-btn quantity-decrease"> - </a>
+              </td>
+              <td><a class="btn btn-danger btn-xs" href="sellermanagecart/{{p.id}}?action=rmv"><span class="glyphicon glyphicon-trash"></span></a></td>
+            </tr>
+          {% else %}
+            <br><br><br>
+            <h1>No products</h1>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<br><br><br>
+<div style="text-align: center;">
+  <a href="/seller-address/{{cart.id}}"><button class="btn btn-success btn-lg"><span>Sell Now </span></button></a>
+</div>
+<script>
+  $(document).ready(function () {
+    // Function to handle quantity input change
+    $(".quantity-input").on("input", function () {
+      var inputField = $(this);
+      var currentQuantity = parseInt(inputField.val());
+      var maxQuantity = parseInt(inputField.data("max-quantity"));
+
+      if (currentQuantity >= 20 && currentQuantity <= maxQuantity) {
+        // Update total
+        updateTotal();
+      }
+    });
+
+    // Function to handle quantity increase
+    $(".quantity-increase").on("click", function () {
+      updateQuantity($(this), 1);
+    });
+
+    // Function to handle quantity decrease
+    $(".quantity-decrease").on("click", function () {
+      updateQuantity($(this), -1);
+    });
+
+    // Function to update quantity
+    function updateQuantity(button, change) {
+      var inputField = button.closest("tr").find(".quantity-input");
+      var currentQuantity = parseInt(inputField.val());
+      var maxQuantity = parseInt(inputField.data("max-quantity"));
+
+      if (currentQuantity + change >= 20 && currentQuantity + change <= maxQuantity) {
+        currentQuantity += change;
+
+        // Update input field value
+        inputField.val(currentQuantity);
+
+        // Update total
+        updateTotal();
+      }
+    }
+
+    // Function to update total
+    function updateTotal() {
+      // You can add any additional logic here if needed
+    }
+  });
+</script>
+
+<br><br><br><br><br>
+{% endblock content %}

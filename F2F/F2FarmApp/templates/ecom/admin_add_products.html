@@ -1,0 +1,86 @@
+{% extends 'ecom/admin_base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="container mt-5">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br><br><br><br><br><br>
+    <div class="card shadow">
+      <div class="card-header bg-success text-white text-center">
+        <h5>Add Products</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="{{ productForm.name.id_for_label }}">Product Name</label>
+              {% render_field productForm.name class="form-control" placeholder="Enter Product Name" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ productForm.quantity.id_for_label }}">Quantity</label>
+              {% render_field productForm.quantity class="form-control" placeholder="Enter Quantity" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ productForm.description.id_for_label }}">Short Description</label>
+              {% render_field productForm.description class="form-control" placeholder="Enter Description" %}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="{{ productForm.price.id_for_label }}">Product Price (Rs)</label>
+              {% render_field productForm.price class="form-control" placeholder="Enter Product Price" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ productForm.product_image.id_for_label }}">Product Image</label>
+              {% render_field productForm.product_image class="form-control" placeholder="Upload Product Image" %}
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-success">Add Product</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get form and form fields
+    var form = document.querySelector('form');
+    var nameField = document.getElementById('{{ productForm.name.id_for_label }}');
+    var priceField = document.getElementById('{{ productForm.price.id_for_label }}');
+    var quantityField = document.getElementById('{{ productForm.quantity.id_for_label }}');
+    var descriptionField = document.getElementById('{{ productForm.description.id_for_label }}');
+    var productImageField = document.getElementById('{{ productForm.product_image.id_for_label }}');
+
+    // Add event listener for form submission
+    form.addEventListener('submit', function (event) {
+      // Check if all required fields are filled
+      if (!nameField.value || !priceField.value || !quantityField.value || !descriptionField.value || !productImageField.value) {
+        alert('All fields are required.');
+        event.preventDefault(); // Prevent form submission
+      }
+
+      // Check if price is a valid number with a maximum of 5 digits
+      if (!/^\d{1,5}$/.test(priceField.value)) {
+        alert('Price must be a number with a maximum of 5 digits.');
+        event.preventDefault(); // Prevent form submission
+      }
+
+      // Check if quantity is a valid number with a maximum of 6 digits
+      if (!/^\d{1,6}$/.test(quantityField.value)) {
+        alert('Quantity must be a number with a maximum of 6 digits.');
+        event.preventDefault(); // Prevent form submission
+      }
+
+      // Add any additional validations as needed
+    });
+  });
+</script>
+
+{% endblock content %}

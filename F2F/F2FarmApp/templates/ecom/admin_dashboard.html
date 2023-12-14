@@ -1,0 +1,110 @@
+{% extends 'ecom/admin_base.html' %}
+{% load static %}
+{% block content %}
+<br>
+{% include 'ecom/admin_dashboard_cards.html' %}
+<br><br><br><br><br>
+
+<hr><hr>
+<div class="container">
+  <div class="panel panel-danger neumorphic-panel">
+    <div class="panel-heading neumorphic-header" style="text-align:center;">
+      <h6 class="panel-title">Recent Booking</h6>
+    </div>
+    <table class="table table-hover table-bordered" id="dev-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Contact</th>
+          <th>Shipping Address</th>
+          <th>Products</th>
+          <th>Total Price</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      {% for data_item in data %}
+      <tr>
+        <td>{{ data_item.order.id }}</td>
+        <td>{{ data_item.customer.get_name }}</td>
+        <td>{{ data_item.order.mobile }}</td>
+        <td>{{ data_item.order.address }}</td>
+        <td>
+          <ul class="order-details">
+            {% for product in data_item.cart_products %}
+              <li>
+                <strong>Name:</strong> {{ product.product.name }} <br>
+                <strong>Description:</strong> {{ product.product.description }} <br>
+                <strong>Price:</strong> ₹{{ product.product.price }}/kg <br>
+                <strong>Quantity:</strong> {{ product.quantity }} kg <br>
+                <strong>Total Price:</strong> ₹{{ product.subtotal }}
+              </li><br>
+            {% endfor %}
+          </ul>
+        </td>
+        <td>₹{{ data_item.total_price }}</td>  <!-- Display total price -->
+        <td>{{ data_item.order.order_date}}</td>
+        <td>{{ data_item.order.status }}</td>
+        <td>
+          <a class="btn btn-primary btn-xs" href="{% url 'update-order' data_item.order.id  %}">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a class="btn btn-danger btn-xs" href="{% url 'delete-order' data_item.order.id  %}">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<style media="screen">
+  .neumorphic-panel {
+    background-color: #f0f0f0;
+    box-shadow: 5px 5px 10px #cbced1, -5px -5px 10px #ffffff;
+  }
+
+  .neumorphic-header {
+    background-color: #e0e0e0;
+    box-shadow: 5px 5px 10px #cbced1, -5px -5px 10px #ffffff;
+  }
+
+  .neumorphic-table {
+    background-color: #f0f0f0;
+    box-shadow: 5px 5px 10px #cbced1, -5px -5px 10px #ffffff;
+  }
+
+  .neumorphic-th {
+    background-color: #e0e0e0;
+    box-shadow: 3px 3px 5px #cbced1, -3px -3px 5px #ffffff;
+  }
+
+  .neumorphic-label {
+    background-color: #E94545;
+    box-shadow: 3px 3px 5px #cbced1, -3px -3px 5px #ffffff;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .neumorphic-panel,
+  .neumorphic-header,
+  .neumorphic-table,
+  .neumorphic-th,
+  .neumorphic-label {
+    animation: fadeInUp 0.5s ease-in-out;
+  }
+</style>
+
+{% endblock content %}

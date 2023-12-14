@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>F2Farms</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #navbar {
+            background-color: #FFFFFF;
+            color: black;
+            padding: 10px;
+        }
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+        }
+        .navbar-brand,
+        .nav-item,
+        .nav-link.active {
+            color: black !important;
+            font-size: 20px;
+            font-weight: 500;
+            margin-right: 20px;
+            text-decoration: none;
+        }
+        .cart-button {
+            background-color: #EEC23E;
+            color: #000000;
+            border: 1px solid #FFCC33;
+            border-radius: 2px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .cart-button:hover {
+            background-color: #FFCC33;
+            color: #fff;
+        }
+        footer {
+            background-color: #0C6E13; /* Light yellow color */
+            color: #FFFFFF; /* White text color */
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        .footer-icon {
+            font-size: 18px; /* Adjust the size of the icons */
+            margin-right: 5px; /* Optional: Add some spacing between icon and text */
+        }
+        @media screen and (max-width: 576px) {
+            .navbar-nav {
+                flex-direction: column;
+                align-items: flex-end; /* Align items to the right */
+            }
+            .navbar-nav .nav-item {
+                margin-bottom: 5px; /* Reduce the gap between links */
+                text-align: right; /* Align text to the right within the item */
+            }
+        }
+        .navbar-toggler-icon {
+            background-color: #0C6E13; /* White background */
+           border-radius: 4px; /* Rounded corners */
+            padding: 2px; /* Adjust padding as needed */
+            transition: border 0.3s ease; /* Smooth transition effect */
+        }
+        .navbar-toggler:hover .navbar-toggler-icon {
+            border: 2px solid #0C6E13; /* Change border to white on hover */
+        }
+        /* Additional styles to remove gaps */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        /* Adjust margins for elements above and below the navbars */
+        #element-above-first-navbar {
+            margin-bottom: 0;
+        }
+        #element-below-second-navbar {
+            margin-top: 0;
+        }
+        .cart-button {
+          text-decoration: none; /* Removes the underline */
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: #yourColor; /* Add your preferred background color */
+          color: black; /* Set the text color to white or your preferred color */
+          border-radius: 5px;
+      }
+  
+      .cart-button i {
+          margin-right: 5px; /* Adjust the spacing between icon and text */
+          vertical-align: middle;
+      }
+    </style>
+</head>
+<body>
+   <!-- Second Navbar -->
+  <nav class="navbar navbar-expand-sm bg-body-dark" id="navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+          <span style="font-weight: 1000; color: black;line-height: 0;">Admin Panel</span>
+      </a>
+      
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/view-customer">Registered Users</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/admin-view-booking">View Orders</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/admin-products">Manage Products</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/admin_view_selling_view">Manage Sellers Product </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/logout">Logout </a>
+                </li>
+              </ul>
+             
+          </div>
+      </div>
+  </nav>
+  <hr>
+
+  <!-- Content start -->
+  <div class="container">
+      {% block content %}
+      {% endblock content %}
+  </div>
+  <!-- Content end -->
+  <br><br><br><br><br><br>
+  <br><br><br><br>
+  <!-- Footer section -->
+  <footer>
+      <center style="list-style-type: none; padding: 0; margin: 0;">
+          <li class="upper-links" style="list-style-type: none; padding: 0; margin: 0;">
+              <a href="/terms" style="color: #FFFFFF; text-decoration: none;">
+                  <i class="material-icons footer-icon">description</i>
+                  Terms and Conditions
+              </a>
+          </li>
+          <li class="upper-links" style="list-style-type: none; padding: 0; margin: 0;">
+              <a href="/Privacy" style="color: #FFFFFF; text-decoration: none;">
+                  <i class="material-icons footer-icon">privacy_tip</i>
+                  Privacy Policy
+              </a>
+          </li>
+      </center>
+      <center>
+          <a href="tel:+919999999999" class="fa fa-phone call" style="color:#000000"></a>
+          <span style="color:#000000"><a href="tel:+919999999999" style="color: #FFFFFF;"> :+919999999999</a></span>
+      </center>
+      <div class="container">
+          <div class="row">
+              <div class="col-md-12 col-sm-12">
+                  <div style="color:#ffffff;" class="wow fadeInUp footer-copyright">
+                      <p>F2Farm &copy; 2023 | RAFarm | All rights received</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </footer>
+</body>
+</html>

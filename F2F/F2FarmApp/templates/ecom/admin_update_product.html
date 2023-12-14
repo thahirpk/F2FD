@@ -1,0 +1,101 @@
+{% extends 'ecom/admin_base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Product Details</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-11">
+
+        <div class="card">
+          <div class="card-header text-center">
+            <h2>Update Product Details</h2>
+          </div>
+          <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="{{ productForm.name.id_for_label }}">Product Name:</label>
+                {{ productForm.name | add_class:'form-control' }}
+              </div>
+
+              <div class="form-group">
+                <label for="{{ productForm.price.id_for_label }}">Price:</label>
+                {{ productForm.price | add_class:'form-control' }}
+              </div>
+
+              <div class="form-group">
+                <label for="{{ productForm.quantity.id_for_label }}">Quantity:</label>
+                {{ productForm.quantity | add_class:'form-control' }}
+              </div>
+
+              <div class="form-group">
+                <label for="{{ productForm.description.id_for_label }}">Description:</label>
+                {{ productForm.description | add_class:'form-control' }}
+              </div>
+
+              <div class="form-group">
+                <label for="{{ productForm.product_image.id_for_label }}">Product Image:</label>
+                {{ productForm.product_image | add_class:'form-control' }}
+              </div>
+
+              <button type="submit" class="btn btn-success">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Get form and form fields
+    var form = document.querySelector('form');
+    var nameField = document.getElementById('{{ productForm.name.id_for_label }}');
+    var priceField = document.getElementById('{{ productForm.price.id_for_label }}');
+    var quantityField = document.getElementById('{{ productForm.quantity.id_for_label }}');
+    var descriptionField = document.getElementById('{{ productForm.description.id_for_label }}');
+    var productImageField = document.getElementById('{{ productForm.product_image.id_for_label }}');
+
+    // Add event listener for form submission
+    form.addEventListener('submit', function (event) {
+      // Check if all required fields are filled
+      if (!nameField.value || !priceField.value || !quantityField.value || !descriptionField.value) {
+        alert('All fields are required.');
+        event.preventDefault(); // Prevent form submission
+      }
+
+      // Check if price is a valid number with a maximum of 5 digits
+      if (!/^\d{1,5}$/.test(priceField.value)) {
+        alert('Price must be a number with a maximum of 5 digits.');
+        event.preventDefault(); // Prevent form submission
+      }
+
+      // Check if quantity is a valid number with a maximum of 6 digits
+      if (!/^\d{1,6}$/.test(quantityField.value)) {
+        alert('Quantity must be a number with a maximum of 6 digits.');
+        event.preventDefault(); // Prevent form submission
+      }
+
+      // Add any additional validations as needed
+    });
+  });
+</script>
+
+{% endblock content %}

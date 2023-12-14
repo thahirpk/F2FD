@@ -1,0 +1,95 @@
+{% extends 'ecom/admin_base.html' %} {% load static %} {% block content %}
+<head>
+  <link
+    href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+    rel="stylesheet"
+    id="bootstrap-css"
+  />
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+    h6 {
+      text-align: center;
+    }
+    .row {
+      margin: 100px;
+    }
+    .order-details {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<div class="container">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h6 class="panel-title">Total Orders</h6>
+    </div>
+    <table class="table table-hover table-bordered" id="dev-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Contact</th>
+          <th>Shipping Address</th>
+          <th>Products</th>
+          <th>Total Price</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      {% for data_item in data %}
+      <tr>
+        <td>{{ data_item.order.id }}</td>
+        <td>{{ data_item.customer.get_name }}</td>
+        <td>{{ data_item.order.mobile }}</td>
+        <td>{{ data_item.order.address }}</td>
+        <td>
+          <ul class="order-details">
+            {% for product in data_item.cart_products %}
+            <li>
+              <strong>Product Name:</strong> {{ product.product.name }} <br />
+              <strong>Description:</strong> {{ product.product.description }}
+              <br />
+              <strong>Price:</strong> ₹{{ product.product.price }}/kg <br />
+              <strong>Quantity:</strong> {{ product.quantity }} kg <br />
+              <strong>Total Price:</strong> ₹{{ product.subtotal }}<br />
+            </li>
+            <br />
+            {% endfor %}
+          </ul>
+        </td>
+        <td>₹{{ data_item.total_price }}</td>
+        <!-- Display total price -->
+        <td>{{ data_item.order.order_date}}</td>
+        <td>{{ data_item.order.status }}</td>
+        <td>
+          <a
+            class="btn btn-primary btn-xs"
+            href="{% url 'update-order' data_item.order.id  %}"
+          >
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a
+            class="btn btn-danger btn-xs"
+            href="{% url 'delete-order' data_item.order.id  %}"
+          >
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+          <a
+            class="btn btn-info btn-xs"
+            href="{% url 'order-pdf' order_id=data_item.order.id %}"
+          >
+            <i class="fas fa-file-pdf"></i> Download PDF
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,103 @@
+{% extends 'ecom/homebase.html' %}
+{% load static %}
+{% block content %}
+
+<style media="screen">
+    body {
+        background-color: #f7f7f7;
+    }
+
+    .card-container {
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+   
+
+    h5 {
+      text-align: justify;
+      line-height: 1.5;
+      word-spacing: 2.5px;
+      margin: 0;
+      font-weight: 400; /* Adjust the value to control the boldness */
+  }
+
+    .card-container1 {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    .card {
+        height: 200px;
+        width: 100%;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+        
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 10px 10px 20px #d9d9d9, -10px -10px 20px #ffffff;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .card img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 15px 15px 0 0;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+</style>
+
+<br><br><br>
+<div class="card-container">
+    <center>
+        <h1>About Us</h1>
+    </center>
+    <br>
+    <h5>
+      F2Fram revolutionizes the agricultural supply chain by creating a dynamic bridge between farmers and retailers, promoting efficiency, transparency, and sustainability. This innovative project addresses key challenges in the current agricultural distribution system and introduces a comprehensive solution for seamless product management.
+
+      <p></p>
+
+      At the core of F2Fram is a sophisticated platform that enables farmers to connect directly with retailers. Farmers can upload information about their produce, helping them create a virtual marketplace. This empowers farmers by providing them with a broader market reach and allows retailers to access a diverse range of fresh produce.
+
+      Upon receiving orders from retailers, F2Fram orchestrates a systematic process for product handling. The products are transported to a centralized warehouse equipped with state-of-the-art storage facilities. Here, inventory management systems ensure the optimal preservation of freshness and quality. The warehouse acts as a pivotal point, streamlining the transition from farm to market.
+
+      Retailers, utilizing the user-friendly interface, can place orders based on their specific requirements. 
+      <p></p>
+      The platform employs smart algorithms to optimize order fulfillment, considering factors such as product availability, location, and delivery schedules. This enhances the efficiency of the supply chain and minimizes waste by aligning supply with demand.
+
+      F2Fram contributes to the overall sustainability of the agricultural sector by reducing inefficiencies and waste in the supply chain. By connecting farmers directly with retailers, it empowers both parties, fostering economic growth in rural communities while meeting the demands of urban markets. In conclusion, F2Fram emerges as a transformative force in agricultural distribution, redefining how farmers and retailers collaborate for a more resilient and interconnected future.
+    </h5><br><br>
+    <center><h2>Our Products</h2></center><br>
+  <center>
+  <div class="container">
+      <div class="row">
+          {% for p in products %}
+          <div class="col-lg-2 col-md-4 col-sm-6">
+              <div class="card">
+                  <img src="{% static p.product_image.url %}" alt="product pic">
+                  <div class="card-body">
+                      <div class="card-title">Product: {{ p.name }}</div>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div></center></div>
+  <br><br><br>
+  {% endblock content %}

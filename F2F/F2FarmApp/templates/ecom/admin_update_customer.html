@@ -1,0 +1,63 @@
+{% extends 'ecom/admin_base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<div class="container mt-5">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br><br><br><br><br><br>
+    <div class="card shadow">
+      <div class="card-header bg-success text-white text-center">
+        <h5>Update Customer Details</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="{{ userForm.first_name.id_for_label }}">First Name</label>
+              {% render_field userForm.first_name class="form-control" placeholder="Enter First Name" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ userForm.username.id_for_label }}">Username</label>
+              {% render_field userForm.username class="form-control" placeholder="Enter Username" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ customerForm.mobile.id_for_label }}">Contact</label>
+              {% render_field customerForm.mobile class="form-control" placeholder="Enter Contact Number" %}
+              {% if customerForm.mobile.errors %}
+                <div class="text-danger">{{ customerForm.mobile.errors.0 }}</div>
+              {% endif %}
+            </div>
+            
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="{{ userForm.last_name.id_for_label }}">Last Name</label>
+              {% render_field userForm.last_name class="form-control" placeholder="Enter Last Name" %}
+            </div>
+            <div class="form-group">
+              <label for="{{ userForm.password.id_for_label }}">Password</label>
+              {% render_field userForm.password class="form-control" placeholder="Enter Password" %}
+              {% if userForm.password.errors %}
+                <div class="text-danger">{{ userForm.password.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="form-group">
+              <label for="{{ customerForm.address.id_for_label }}">Address</label>
+              {% render_field customerForm.address class="form-control" placeholder="Enter Address" %}
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-success">Update</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,197 @@
+{% extends 'ecom/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .container {
+      margin: 50px auto;
+      max-width: 1300px;
+    }
+
+    .panel {
+      border-radius: 15px;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .panel-heading {
+      border-radius: 15px 15px 0 0;
+      background-color: #f8f9fa;
+      color: #007bff;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .table {
+      border-radius: 0 0 15px 15px;
+      overflow: hidden;
+    }
+
+    th, td {
+      border: none;
+    }
+
+    .table-hover tbody tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    .profile-pic {
+      border-radius: 50%;
+    }
+
+    .btn {
+      border-radius: 10px;
+    }
+
+    .neomorphic-btn {
+      background-color: #1B63C7;
+      padding: 10px 15px;
+      border: none;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
+                  -5px -5px 15px rgba(255, 255, 255, 0.8);
+    }
+
+    .neomorphic-btn:hover {
+      box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.1),
+                  inset -5px -5px 15px rgba(255, 255, 255, 0.8);
+    }
+
+    .neomorphic-btn-xs {
+      padding: 5px 10px;
+    }
+
+    .neomorphic-btn-danger {
+      background-color: #ff6464;
+      color: #fff;
+    }
+
+    .neomorphic-btn-danger:hover {
+      box-shadow: inset 5px 5px 15px rgba(0, 0, 0, 0.1),
+                  inset -5px -5px 15px rgba(255, 255, 255, 0.8);
+      background-color: #ff4646;
+    }
+
+    /* Additional Styles for User Type Filter and Pagination */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .pagination {
+      margin-top: 20px;
+    }
+
+    .pagination li {
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    .pagination a, .pagination span {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      color: #333;
+    }
+
+    .pagination .active span {
+      background-color: #1B63C7;
+      color: #fff;
+      border: 1px solid #1B63C7;
+    }
+  </style>
+</head>
+
+<div class="container">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h6 class="panel-title">Total Customers</h6>
+    </div>
+
+    <!-- User type filter -->
+    <div class="form-group">
+      <label for="userTypeFilter">Filter by User Type:</label>
+      <select id="userTypeFilter" class="form-control">
+        <option value="all">All</option>
+        <option value="customer">Customer</option>
+        <option value="seller">Seller</option>
+      </select>
+    </div>
+
+    <table class="table table-hover table-bordered" id="dev-table">
+      <thead>
+        <tr>
+          <th>S.no</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Address</th>
+          <th>User type</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      {% for c in customers %}
+      <tr>
+        <td>{{ c.id }}</td>
+        <td>{{ c.get_name }}</td>
+        <td>{{ c.mobile }}</td>
+        <td>{{ c.address }}</td>
+        <td>{{ c.user_type }}</td>
+        
+        <td>
+          <a class="neomorphic-btn neomorphic-btn-xs neomorphic-btn-danger btn btn-danger" href="{% url 'delete-customer' c.id %}">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <span class="step-links">
+        {% if customers.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ customers.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+          Page {{ customers.number }} of {{ customers.paginator.num_pages }}.
+        </span>
+
+        {% if customers.has_next %}
+          <a href="?page={{ customers.next_page_number }}">next</a>
+          <a href="?page={{ customers.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('userTypeFilter').addEventListener('change', function () {
+    var selectedUserType = this.value;
+
+    // Loop through rows and show/hide based on user type
+    var rows = document.querySelectorAll('#dev-table tbody tr');
+    rows.forEach(function (row) {
+      var userTypeCell = row.querySelector('td:nth-child(4)'); // Adjust the index based on your table structure
+      var userType = userTypeCell.textContent.toLowerCase();
+
+      if (selectedUserType === 'all' || userType === selectedUserType) {
+        row.style.display = 'table-row';
+      } else {
+        row.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+{% endblock content %}

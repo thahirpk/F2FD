@@ -1,0 +1,157 @@
+{% extends 'ecom/admin_base.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style media="screen">
+    a:link {
+      text-decoration: none;
+    }
+
+    h6 {
+      text-align: center;
+    }
+
+    .container {
+      margin-top: 20px;
+    }
+
+    .panel-heading {
+      background-color: #DC3545;
+      color: white;
+      font-size: 24px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-heading h6 {
+      margin: 0;
+    }
+
+    #searchInput {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    #addProductButton {
+      background-color: #2e974d;
+      color: white;
+      font-size: 18px;
+      margin-left: 10px;
+    }
+
+    .table {
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      text-align: center;
+      font-size: 18px;
+      padding: 15px;
+    }
+
+    .btn-primary,
+    .btn-danger {
+      margin-right: 5px;
+      font-size: 14px;
+    }
+
+    .float {
+      position: fixed;
+      width: 60px;
+      height: 60px;
+      bottom: 40px;
+      right: 40px;
+      background-color: #3eb54d;
+      color: #FFF;
+      border-radius: 50%;
+      text-align: center;
+      box-shadow: 3px 3px 3px #505050;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .float:hover {
+      background-color: #2e974d;
+      box-shadow: 5px 5px 5px #505050;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+
+<div class="container">
+  <div class="panel panel-danger">
+    <div class="panel-heading">
+      <h6 class="panel-title">Total Products</h6>
+      <a href="/admin-add-product" class="btn btn-primary" id="addProductButton">Add Product</a>
+    </div>
+    <input type="text" id="searchInput" class="form-control" placeholder="Search">
+    <table class="table table-hover table-bordered" id="dev-table">
+      <thead>
+        <tr>
+          <th>S.no</th>
+          <th>Name</th>
+          <th>Image</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Grade</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      {% for p in products %}
+      {% if p %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.name }}</td>
+        <td><img src="{% static p.product_image.url %}" alt="Product Image" height="40px" width="40px" /></td>
+        <td>{{ p.price }}</td>
+        <td>{{ p.quantity }}</td>
+        <td>{{ p.description }}</td>
+        <td>
+          <a class="btn btn-primary btn-xs" href="{% url 'update-product' p.id %}">
+            <span class="glyphicon glyphicon-edit"></span>
+          </a>
+          <a class="btn btn-danger btn-xs" href="{% url 'delete-product' p.id %}">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5">
+          <h3 class="text-center">No Products!</h3>
+        </td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<!-- Add product floating button -->
+<a href="/admin-add-product" class="float">
+  <i class="fa fa-plus"></i>
+</a>
+
+<script>
+  $(document).ready(function () {
+    $("#searchInput").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#dev-table tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+{% endblock content %}
